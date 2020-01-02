@@ -2,7 +2,7 @@ import numpy as np
 import cv2
 import os
 
-
+# for loading data and applying bunch of preprocessing sequentially
 class SimpleDatasetLoader:
 
     def __init__(self, preprocessor=None):
@@ -27,7 +27,7 @@ class SimpleDatasetLoader:
             label = imagePath.split(os.path.sep)[-2]
             # check to see if our preprocessors are not None
             if self.preprocessors is not None:
-                # loop over the preprocessors and apply each to
+                # applying each of the preprocessing to the image
                 # the image
                 for p in self.preprocessors:
                     image = p.preprocess(image)
@@ -35,12 +35,12 @@ class SimpleDatasetLoader:
             # by updating the data list followed by the labels
             data.append(image)
             labels.append(label)
-
             # show an update every `verbose` images
             if verbose > 0 and i > 0 and (i + 1) % verbose == 0:
                 print("[INFO] processed {}/{}".format(i + 1,
                                                       len(imagePaths)))
 
         # return a tuple of the data and labels
+        # contains all the data and their respective labels
         return (np.array(data), np.array(labels))
 
